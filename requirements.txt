@@ -1,3 +1,2 @@
 twisted
 scrapy
-pypiwin32

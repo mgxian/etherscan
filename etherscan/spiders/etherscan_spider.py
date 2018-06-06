@@ -37,26 +37,26 @@ class EtherscanSpider(scrapy.Spider):
         contract_code_dom = response.xpath(
             '//*[@id="ContentPlaceHolder1_contractCodeDiv"]')
         name = contract_code_dom.xpath(
-            'div[2]/table/tr/td[2]/text()')[0].extract().strip('\n')
+            'div[2]/table/tr/td[2]/text()')[0].extract().strip('\n ')
         summary_dom = response.xpath(
             '//*[@id="ContentPlaceHolder1_divSummary"]/div[1]/table')
         balance = summary_dom.xpath(
-            '//tr[1]/td[2]/text()')[0].extract().strip('\n')
+            '//tr[1]/td[2]/text()')[0].extract().strip('\n ')
         ether_value = summary_dom.xpath(
-            '//tr[2]/td[2]/text()')[0].extract().strip('\n')
+            '//tr[2]/td[2]/text()')[0].extract().strip('\n ')
         transaction_count = summary_dom.xpath(
-            '//tr[3]/td[2]/span/text()')[0].extract().strip('\n')
+            '//tr[3]/td[2]/span/text()')[0].extract().strip('\n ')
         creator_address = summary_dom.xpath(
-            '//*[@id="ContentPlaceHolder1_trContract"]/td[2]/a/text()')[0].extract().strip('\n')
+            '//*[@id="ContentPlaceHolder1_trContract"]/td[2]/a/text()')[0].extract().strip('\n ')
         creator_transaction_hash = summary_dom.xpath(
-            '//*[@id="ContentPlaceHolder1_trContract"]/td[2]/span/a/text()')[0].extract().strip('\n')
+            '//*[@id="ContentPlaceHolder1_trContract"]/td[2]/span/a/text()')[0].extract().strip('\n ')
         code = response.xpath('//*[@id="editor"]/text()')[0].extract()
         compiler_version = contract_code_dom.xpath(
-            'div[2]/table/tr[2]/td[2]/text()')[0].extract().strip('\n')
+            'div[2]/table/tr[2]/td[2]/text()')[0].extract().strip('\n ')
         optimization_enabled = 'yes' in contract_code_dom.xpath(
-            'div[3]/table/tr/td[2]/text()')[0].extract().strip('\n').lower()
+            'div[3]/table/tr/td[2]/text()')[0].extract().strip('\n ').lower()
         runs = contract_code_dom.xpath(
-            'div[3]/table/tr[2]/td[2]/text()')[0].extract().strip('\n')
+            'div[3]/table/tr[2]/td[2]/text()')[0].extract().strip('\n ')
 
         item['address'] = address
         item['name'] = name
