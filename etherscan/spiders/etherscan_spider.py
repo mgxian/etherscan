@@ -1,4 +1,6 @@
 import scrapy
+import requests
+import json
 from pprint import pprint
 from etherscan.items import EtherscanItem, ContractItem
 
@@ -11,23 +13,25 @@ class EtherscanSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        page = response.xpath('/html/body/div[1]/div[4]/div[2]/div[2]/p/span')
+        page = response.xpath('/html/body/div[1]/div[5]/div[2]/div[2]/p/span')
         max_page_number = int(page.xpath('//*/b[2]/text()').extract()[0])
         # print(max_page_number)
+        # max_page_number = 1
         for i in range(max_page_number):
             url = response.url + '/' + str(i+1)
             # print(url)
             yield scrapy.Request(url, callback=self.parse_verified_contracts)
 
     def parse_verified_contracts(self, response):
-        for contract in response.xpath('/html/body/div[1]/div[4]/div[3]/div/div/div/table/tbody/tr/td[1]/a'):
+        for contract in response.xpath('/html/body/div[1]/div[5]/div[3]/div/div/div/table/tbody/tr/td[1]/a'):
             link = contract.xpath('@href').extract()[0]
             url = response.urljoin(link)
             # print(url)
             yield scrapy.Request(url, callback=self.parse_contract)
 
     def parse_contract(self, response):
-        item = ContractItem()
+        # item = ContractItem()
+        item = {}
         try:
             address = response.xpath(
                 '//*[@id="mainaddress"]/text()')[0].extract()
@@ -70,4 +74,19 @@ class EtherscanSpider(scrapy.Spider):
         item['runs'] = runs
         item['code'] = code
 
-        yield item
+        item['chain'] = 'eth'
+        item['binary_code'] = ''
+
+        # print(json.dumps(item))
+
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+        }
+        url = "https://wtb.czxiu.com/api/s/contract/upload?__WT__=wutui"
+        data = {
+            "json": json.dumps(item)
+        }
+        resp = requests.put(url, data, headers=headers)
+        print(resp.text)
+
+        # yield item
