@@ -82,7 +82,7 @@ class EtherscanSpider(scrapy.Spider):
         headers = {
             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
         }
-        url = "https://wtb.czxiu.com/api/s/contract/upload?__WT__=wutui"
+        url = "https://api.wutui.pro/api/s/contract/upload?__WT__=wutui"
         data = {
             "json": json.dumps(item)
         }
