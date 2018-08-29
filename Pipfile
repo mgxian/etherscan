@@ -8,6 +8,7 @@ name = "pypi"
 [packages]
 Twisted = "*"
 Scrapy = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"
