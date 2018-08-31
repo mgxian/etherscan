@@ -91,6 +91,7 @@ class EtherscanSpider(scrapy.Spider):
             warning['url'] = link
             warnings.append(warning)
 
+        used_libs = []
         used_lib_elements = response.xpath(
             '//*[@id="dividcode"]/i[contains(@class, "fa-book")]/following-sibling::pre[1]')
         if len(used_lib_elements) > 0:
@@ -101,8 +102,7 @@ class EtherscanSpider(scrapy.Spider):
             for used_lib_element in used_lib_elements:
                 used_lib_link = used_lib_element.xpath('a/@href')[0].extract()
                 used_lib_links.append(root_url + used_lib_link)
-            
-            used_libs = []
+
             for name, url in zip(used_lib_names, used_lib_links):
                 used_lib = {}
                 used_lib['name'] = name
@@ -110,8 +110,6 @@ class EtherscanSpider(scrapy.Spider):
                 used_libs.append(used_lib)
 
             print('woops -------------> ', used_libs)
-
-        return
 
         item['address'] = address
         item['name'] = name
@@ -129,10 +127,10 @@ class EtherscanSpider(scrapy.Spider):
         item['binary_code'] = ''
 
         item['warnings'] = warnings
+        item['used_libs'] = used_libs
 
-        # print(json.dumps(item))
-        # print(warning)
-
+        print(json.dumps(item))
+        return
         # yield item
 
         headers = {
