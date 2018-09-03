@@ -129,8 +129,8 @@ class EtherscanSpider(scrapy.Spider):
         item['warnings'] = warnings
         item['used_libs'] = used_libs
 
-        print(json.dumps(item))
-        return
+        # print(json.dumps(item))
+        # return
         # yield item
 
         headers = {
